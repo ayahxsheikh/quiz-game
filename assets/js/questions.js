@@ -1,22 +1,27 @@
-let questions = [
+let questionArr = [
     {
-        question: "Which of the following countries are in South Asia",
-        choices: ['Mongolia', 'Thailand', 'Pakistan', 'Chechenya' ]
+        title: "Which of the following countries are in South Asia",
+        choices: ['Mongolia', 'Thailand', 'Pakistan', 'Chechenya' ],
+        answer: 'Pakistan'
     },
     {
-        question: "What city is the capital of Turkey",
-        choices: ['Antalya', 'Isfahan', 'Istanbul', 'Busra']
+        title: "Which country is known for having a 'Seista'",
+        choices: ['Poland', 'Spain', 'Germany', 'Portugal'],
+        answer: 'Spain'
     },
     {
-        question: "Which country is known for having a 'Seista'",
-        choices: ['Poland', 'Spain', 'Germany', 'Portugal']
+        title: "Which country is not in East Africa",
+        choices: ['Somalia', 'Tanzania', 'Nigeria', 'Ethopia'],
+        answer: 'Nigeria'
     },
     {
-        question: "Which country is not in East Africa",
-        choices: ['Somalia', 'Tanzania', 'Nigeria', 'Ethopia']
+        title: "What city is the capital of Turkey",
+        choices: ['Antalya', 'Isfahan', 'Istanbul', 'Busra'],
+        answer: 'Istanbul'
     },
     {
-        question: "Which country has the colour green in their national flag",
-        choices: ['Argentina', 'Mexico', 'Coloumbia', 'Venezula']
+        title: "Which country has the colour green in their national flag",
+        choices: ['Argentina', 'Mexico', 'Coloumbia', 'Venezula'],
+        answer: 'Mexico'
     }
 ]

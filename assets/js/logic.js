@@ -3,19 +3,55 @@ let timer = document.querySelector('#timer');
 let startSc = document.querySelector('#start-screen');
 let startBtn = document.querySelector('#start');
 let endSc = document.querySelector('#end-screen');
+let questionSc = document.querySelector('#question-screen');
+let questionTitle =  document.querySelector('#question-title');
+let choicesWrapper = document.querySelector('#choices')
+
+startBtn.addEventListener('click', startQuiz)
 
 
-// Add event listner to show questions
-startBtn.addEventListener('click', function (event){
-    event.preventDefault();
-    startSc.setAttribute('class', 'hide');
-    countDown();
-    showQuestions();
-})
+function startQuiz(){
+    startCountdown();
+    startSc.classList.add('hide');
+    questionSc.classList.remove('hide');
+    
+    // create an index and add it to questionrArr to track current q
+    let questionIndex = 0
+    let currentQuestionObj = questionArr[questionIndex];
+    let choices = currentQuestionObj.choices;
+    
+    // displays question title in h2
+    questionTitle.innerText = currentQuestionObj.title;
+
+    for(let i = 0; i < choices.length; i++){
+        let choice = choices[i];
+
+        // create variable to check correct answer against choice
+        let isCorrect = currentQuestionObj.answer === choice;
+
+        // add correct answer variable to choices custom data-attribute
+        // target the choicesDiv and create buttons for each choice
+
+        choicesWrapper.insertAdjacentHTML('beforeend',`
+        <button data-correct=${isCorrect}>${choice}</button>
+        `)
+    }
+    // add event listener to choices wrapper - event bubbling
+    choicesWrapper.addEventListener('click', function(){
+        console.log('NEXT')
+        // function to check if button clicked is correct or not
+        // checkAnswer();
+    })
+    
+}
+
+// function for next question
+// questionIndex++;
+
 
 // Create timer function
-function countDown(){
-    let timeLeft = 60;
+function startCountdown(){
+    let timeLeft = 100;
 
 // create setInterval Function inside countdown to decrease timeLeft
     let timeInterval = setInterval(function (){
@@ -25,23 +61,17 @@ function countDown(){
         if(timeLeft <= 0){
             clearTimeout(timeInterval)
             endSc.removeAttribute('class');
-        // TODO: incorportate end time and display end-screen when all questions are ansered 
-        }
+        // TODO: End quiz when all questions are answered or when timer reaches 0
+        } 
 
     }, 1000);
 
+    return timeLeft;
 }
 
-// Create function to loop over questions array and display each question object
-// Loop over each question object and display array of choices 
-// Create new element button for each choice 
-// Append new html to questions div
 
-
-// Create function for when a button from choices is clicked; next questions appear
 
 // Add an if statement that decreases the timer by 10 secs on incorrect answers
 
-// End quiz when all questions are answered or when timer reaches 0
 
 // Store user-name and user-score to localStorage and display it on screen
