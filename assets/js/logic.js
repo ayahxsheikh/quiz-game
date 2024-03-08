@@ -7,6 +7,12 @@ let questionSc = document.querySelector('#question-screen');
 let questionTitle =  document.querySelector('#question-title');
 let choicesWrapper = document.querySelector('#choices')
 
+// create an index and add it to questionrArr to track current q
+let questionIndex = 0
+let currentQuestionObj = questionArr[questionIndex];
+let choices = currentQuestionObj.choices;
+
+// start quiz
 startBtn.addEventListener('click', startQuiz)
 
 
@@ -15,10 +21,6 @@ function startQuiz(){
     startSc.classList.add('hide');
     questionSc.classList.remove('hide');
     
-    // create an index and add it to questionrArr to track current q
-    let questionIndex = 0
-    let currentQuestionObj = questionArr[questionIndex];
-    let choices = currentQuestionObj.choices;
     
     // displays question title in h2
     questionTitle.innerText = currentQuestionObj.title;
@@ -37,12 +39,17 @@ function startQuiz(){
         `)
     }
     // add event listener to choices wrapper - event bubbling
-    choicesWrapper.addEventListener('click', function(){
-        console.log('NEXT')
-        // function to check if button clicked is correct or not
-        // checkAnswer();
-    })
-    
+    choicesWrapper.addEventListener('click', checkAnswer)
+}
+
+// checks if the button clicked is correct
+function checkAnswer(event){
+    console.log('clicked')
+    // console.log(event)
+    if(event.target.dataset.correct === "true"){
+        console.log('correct')
+    }
+
 }
 
 // function for next question
