@@ -7,23 +7,30 @@ let questionSc = document.querySelector('#question-screen');
 let questionTitle =  document.querySelector('#question-title');
 let choicesWrapper = document.querySelector('#choices')
 
-// create an index and add it to questionrArr to track current q
-let questionIndex = 0
-let currentQuestionObj = questionArr[questionIndex];
-let choices = currentQuestionObj.choices;
+
+// add time for countdouwn
+let timeLeft = 45;
 
 // start quiz
-startBtn.addEventListener('click', startQuiz)
-
-
-function startQuiz(){
+startBtn.addEventListener('click', function(){
+    startQuiz()
     startCountdown();
     startSc.classList.add('hide');
     questionSc.classList.remove('hide');
-    
+})
+
+// create an index and add it to questionrArr to track current q
+let questionIndex = 0
+let currentQuestionObj = questionArr[questionIndex];
+
+function startQuiz(){
+    let choices = currentQuestionObj.choices;
     
     // displays question title in h2
     questionTitle.innerText = currentQuestionObj.title;
+
+    // clear the whole area before prinitng choices
+    choicesWrapper.innerHTML = '';
 
     for(let i = 0; i < choices.length; i++){
         let choice = choices[i];
@@ -40,25 +47,37 @@ function startQuiz(){
     }
     // add event listener to choices wrapper - event bubbling
     choicesWrapper.addEventListener('click', checkAnswer)
+
+    // increase the index to get the next question
+    questionIndex++;
+    currentQuestionObj = questionArr[questionIndex]
+
+    return currentQuestionObj;
 }
 
 // checks if the button clicked is correct
 function checkAnswer(event){
-    console.log('clicked')
     // console.log(event)
+
     if(event.target.dataset.correct === "true"){
         console.log('correct')
+        nextQuestion();
+
+    // Add an if statement that decreases the timer by 10 secs on incorrect answers
+    } else if(event.target.dataset.correct === "false"){
+        timeLeft -= 10;
     }
 
 }
 
 // function for next question
-// questionIndex++;
+function nextQuestion(){
+    startQuiz(currentQuestionObj)
+}
 
 
 // Create timer function
 function startCountdown(){
-    let timeLeft = 100;
 
 // create setInterval Function inside countdown to decrease timeLeft
     let timeInterval = setInterval(function (){
@@ -67,18 +86,13 @@ function startCountdown(){
 
         if(timeLeft <= 0){
             clearTimeout(timeInterval)
-            endSc.removeAttribute('class');
+            timeLeft = 0;
+            endSc.classList.remove('hide');
         // TODO: End quiz when all questions are answered or when timer reaches 0
         } 
 
     }, 1000);
 
-    return timeLeft;
 }
-
-
-
-// Add an if statement that decreases the timer by 10 secs on incorrect answers
-
 
 // Store user-name and user-score to localStorage and display it on screen
