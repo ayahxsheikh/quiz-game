@@ -5,7 +5,8 @@ let startBtn = document.querySelector('#start');
 let endSc = document.querySelector('#end-screen');
 let questionSc = document.querySelector('#question-screen');
 let questionTitle =  document.querySelector('#question-title');
-let choicesWrapper = document.querySelector('#choices')
+let choicesWrapper = document.querySelector('#choices');
+let finalScore = document.querySelector('#final-score');
 
 
 // add time for countdouwn
@@ -14,7 +15,7 @@ let timeLeft = 45;
 // start quiz
 startBtn.addEventListener('click', function(){
     startQuiz()
-    startCountdown();
+    countDown();
     startSc.classList.add('hide');
     questionSc.classList.remove('hide');
 })
@@ -52,11 +53,11 @@ function startQuiz(){
     questionIndex++;
     currentQuestionObj = questionArr[questionIndex]
 
-    return currentQuestionObj;
 }
 
-// checks if the button clicked is correct
+
 function checkAnswer(event){
+    // checks if the button clicked is correct
     // console.log(event)
 
     if(event.target.dataset.correct === "true"){
@@ -66,18 +67,29 @@ function checkAnswer(event){
     // Add an if statement that decreases the timer by 10 secs on incorrect answers
     } else if(event.target.dataset.correct === "false"){
         timeLeft -= 10;
+        nextQuestion();
     }
 
 }
 
 // function for next question
+// create variable to track last item in arr and end quiz
+let lastObject = questionArr.length -1
+
 function nextQuestion(){
-    startQuiz(currentQuestionObj)
+    // console.log(lastObject)
+
+    if(questionIndex <= lastObject){
+        startQuiz(currentQuestionObj)
+    } else {
+        questionSc.classList.add('hide');
+        endSc.classList.remove('hide');
+    }
 }
 
 
 // Create timer function
-function startCountdown(){
+function countDown(){
 
 // create setInterval Function inside countdown to decrease timeLeft
     let timeInterval = setInterval(function (){
@@ -86,13 +98,16 @@ function startCountdown(){
 
         if(timeLeft <= 0){
             clearTimeout(timeInterval)
-            timeLeft = 0;
+            // timeLeft = 0;
             endSc.classList.remove('hide');
-        // TODO: End quiz when all questions are answered or when timer reaches 0
-        } 
+
+        // End quiz when all questions are answered 
+        } else if (questionIndex === lastObject){
+            clearTimeout(timeInterval)
+            finalScore.textContent = timeLeft;
+        }
 
     }, 1000);
-
 }
 
 // Store user-name and user-score to localStorage and display it on screen
