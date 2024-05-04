@@ -10,7 +10,7 @@ let finalScore = document.querySelector('#final-score');
 
 
 // add time for countdouwn
-let timeLeft = 45;
+let timeLeft = 5;
 
 // start quiz
 startBtn.addEventListener('click', function(){
@@ -98,8 +98,9 @@ function countDown(){
 
         if(timeLeft <= 0){
             clearTimeout(timeInterval)
-            // timeLeft = 0;
+            questionSc.classList.add('hide');
             endSc.classList.remove('hide');
+            finalScore.textContent = timeLeft;
 
         // End quiz when all questions are answered 
         } else if (questionIndex === lastObject){
@@ -111,3 +112,22 @@ function countDown(){
 }
 
 // Store user-name and user-score to localStorage and display it on screen
+let initialsInput = document.querySelector('#initials');
+let submitBtn = document.querySelector('#submit');
+
+submitBtn.addEventListener('click', storeData);
+
+// must retrieve data to convert js objects/arr into json string before storing to LS
+let arr = JSON.parse(localStorage.getItem('user-info')) ||[];
+
+function storeData(){
+    let userData = {
+        name: initialsInput.value,
+        score: finalScore.textContent
+    }
+    
+     arr.push(userData)
+
+    // console.log(userArr)
+    localStorage.setItem('user-info', JSON.stringify(arr))
+}
